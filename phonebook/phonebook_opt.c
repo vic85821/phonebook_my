@@ -14,8 +14,8 @@ bst *findName(char lastname[], bst *root)
             return root;
         else
             return findName(lastname, temp < 0 ? root -> left : root -> right);
-    }           
-    
+    }
+
     return NULL;
 }
 
@@ -41,7 +41,7 @@ bst *build_bst(entry** pHead,int num)
 
     //recursive build left leaf
     left = build_bst(pHead, num>>1);
-    
+
 
     // build root(center node)
     root = (bst *) malloc(sizeof(bst));
@@ -54,7 +54,7 @@ bst *build_bst(entry** pHead,int num)
     *pHead = (*pHead)->pNext;
     free(tmp);
     root->right = build_bst(pHead, num-(num>>1)-1);
-    
+
     return root;
 }
 
