@@ -7,10 +7,10 @@
  * line to set OPT properly */
 
 #define OPT 1
-typedef struct __PHONE_BOOK_DETAIL {
+#define BST 1
+typedef struct _PHONE_BOOK_DETAIL {
 	union{
-        char lastName[MAX_LAST_NAME_SIZE]; 
-			  char firstName[16];
+        char firstName[16];
         char email[16];
         char phone[10];
         char cell[10];
@@ -19,20 +19,25 @@ typedef struct __PHONE_BOOK_DETAIL {
         char city[16];
         char state[2];
         char zip[5];
-		};
+    };
 } detail;
 
 typedef struct _PHONE_BOOK_ENTRY {
-	
     union{
         char lastName[MAX_LAST_NAME_SIZE]; 
-		    detail* detailDate;
-		};
-		struct __PHONE_BOOK_ENTRY *pNext;
+        detail *detailDate;
+    };
+    struct _PHONE_BOOK_ENTRY *pNext;
 } entry;
 
+typedef struct _PHONE_BOOK_BST {	
+    struct _PHONE_BOOK_ENTRY *data;
+    struct _PHONE_BOOK_BST *left;
+    struct _PHONE_BOOK_BST *right;
+} bst;
 
-entry *findName(char lastname[], entry *pHead);
+bst *findName(char lastname[], bst *root);
 entry *append(char lastName[], entry *e);
+bst *build_bst(entry** pHead,int num);
 
 #endif

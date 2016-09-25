@@ -1,19 +1,3 @@
-/*#include <stdlib.h>
-
-#include "phonebook_opt.h"
-
-/* FILL YOUR OWN IMPLEMENTATION HERE! */
-//entry *findName(char lastname[], entry *pHead)
-//{
-    /* TODO: implement 
-    return NULL;
-}
-
-entry *append(char lastName[], entry *e)
-{
-    return NULL;
-}*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -21,17 +5,21 @@ entry *append(char lastName[], entry *e)
 
 #include "phonebook_opt.h"
 
-/* original version */
-entry *findName(char lastname[], entry *pHead)
+//use binary search tree to search
+bst *findName(char lastname[], bst *root)
 {
-    while (pHead != NULL) {
-        if (strcasecmp(lastname, pHead->lastName) == 0)
-            return pHead;
-        pHead = pHead->pNext;
-    }
+    while(root != NULL) {
+        int temp = strcasecmp(lastname, root->data->lastName);
+        if(temp == 0)
+            return root;
+        else
+            return findName(lastname, temp < 0 ? root -> left : root -> right);
+    }           
+    
     return NULL;
 }
 
+//origin append
 entry *append(char lastName[], entry *e)
 {
     /* allocate memory for the new entry and put lastName */
@@ -42,3 +30,33 @@ entry *append(char lastName[], entry *e)
 
     return e;
 }
+
+//build binary search
+bst *build_bst(entry** pHead,int num)
+{
+    if(num == 0)
+        return NULL;
+
+    bst *root,*left;
+
+    //recursive build left leaf
+    left = build_bst(pHead, num>>1);
+    
+
+    // build root(center node)
+    root = (bst *) malloc(sizeof(bst));
+    root -> data = (entry *)malloc(sizeof(entry));
+    strcpy((root->data)->lastName, (*pHead)->lastName);
+    root->left = left;
+
+    // build right left
+    entry *tmp = *pHead;
+    *pHead = (*pHead)->pNext;
+    free(tmp);
+    root->right = build_bst(pHead, num-(num>>1)-1);
+    
+    return root;
+}
+
+
+
